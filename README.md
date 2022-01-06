@@ -13,3 +13,4 @@ Todo
 - [ ] Add prometheus config
 - [ ] Add dockerfile
 - [ ] Add makefile to clean up building
+- [ ] Add my Grafana dashboard
