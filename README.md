@@ -14,3 +14,4 @@ Todo
 - [ ] Add dockerfile
 - [ ] Add makefile to clean up building
 - [ ] Add my Grafana dashboard
+- [ ] Reserve an actual prometheus port to run on
