@@ -24,16 +24,6 @@ https://support.weather.com/s/article/PWS-Upload-Protocol
 All the fields are defined on the Weather.com Website.
 */
 
-/*
-	dailyrainin = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
-			Name: "weather_dailyrainin",
-			Help: "rain inches so far today in local time",
-		},
-		[]string{"id"},
-	)
-*/
-
 var config struct {
    Upstream string  `help:"URL to Receive" default:"https://weatherstation.wunderground.com/weatherstation/updateweatherstation.php"`
    upURL    *url.URL 
@@ -44,7 +34,7 @@ var config struct {
    ID       string   `help:"Overrides ID to be used Upstream and label data"`
    KEY      string   `help:"Overrides Key to be used Upstream"`
    Prefix   string   `help:"Prometheus prefix for metrics" default:"weather_"`
-   Log      []string `help:"Log tags" default:"all"`
+   Log      []string `help:"Tags that will be provided to Prometheus"`
    Filter   []string `help:"Filter tags, do not log or forward, superceeds --Log"`
 }
 
