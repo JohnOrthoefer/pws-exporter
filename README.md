@@ -13,7 +13,7 @@ Todo
 - [ ] Make the station id and password options do what they should
 - [ ] Write detailed directions about how to set this up
 - [X] Add prometheus config
-- [ ] Add dockerfile
+- [X] Add Dockerfile
 - [X] Add makefile to clean up building
 - [X] Add my Grafana dashboard
 - [X] Reserve an actual prometheus port to run on
