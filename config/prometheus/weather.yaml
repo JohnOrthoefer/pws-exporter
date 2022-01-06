@@ -5,4 +5,4 @@ scrape_configs:
     scrape_timeout:  3s
     static_configs:
       - targets:
-        - pws-exporter:8443
+        - pws-exporter:9874

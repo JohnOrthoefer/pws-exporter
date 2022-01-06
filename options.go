@@ -12,7 +12,7 @@ var config struct {
    Verbose  bool     `help:"Print extra start infomation" default:"false"`
    Path     string   `help:"Path to scrape, defaults to Upstream Path"`
    Metrics  string   `help:"URL to be scraped" default:"/metrics"`
-   Listen   string   `help:"Address to listen on" default:":8443"`
+   Listen   string   `help:"Address to listen on" default:":9874"`
    ID       string   `help:"Overrides ID to be used Upstream and label data"`
    KEY      string   `help:"Overrides Key to be used Upstream"`
    Prefix   string   `help:"Prometheus prefix for metrics" default:"weather_"`
