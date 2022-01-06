@@ -7,6 +7,8 @@ var config struct {
    Upstream string  `help:"URL to Receive" default:"https://weatherstation.wunderground.com/weatherstation/updateweatherstation.php"`
    upURL    *url.URL 
    Forward  bool     `negatable:"" help:"Forward data to Upstream" default:"false"`
+   ShowYAML bool     `help:"Forward data to Upstream" default:"false"`
+   Version  bool     `help:"Show version and exit" default:"false"`
    Path     string   `help:"Path to scrape, defaults to Upstream Path"`
    Metrics  string   `help:"URL to be scraped" default:"/metrics"`
    Listen   string   `help:"Address to listen on" default:":8443"`

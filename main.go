@@ -1,6 +1,7 @@
 package main
 
 import (
+   "os"
    "fmt"
    "log"
    "net/http"
@@ -19,7 +20,6 @@ var (
 func main() {
    var err error
 
-   fmt.Printf("%s - %s @%s\n", repoName, sha1ver, buildTime)
 
    ctx := kong.Parse(&config,
 	   kong.Name("pws-exporter"),
@@ -30,6 +30,15 @@ func main() {
 
    if config.Path == "" {
       config.Path = config.upURL.Path
+   }
+
+   if config.ShowYAML {
+      fmt.Printf("%s\n", yamlDefault)
+      os.Exit(0)
+   }
+
+   if config.Version {
+      fmt.Printf("%s - %s @%s\n", repoName, sha1ver, buildTime)
    }
 
    fmt.Printf("Config-\n")
@@ -47,8 +56,15 @@ func main() {
       if v.Value != nil {
          continue
       }
+
       if v.Name == "" {
          gauge.Tags[key].Name = config.Prefix + key
+      }
+
+      // in the future could support counter if needed
+      if v.Type != "gauge" {
+         fmt.Printf("Ignoring %s, only gauge is supported\n")
+         continue
       }
       gauge.Tags[key].Value = prometheus.NewGaugeVec(
                   prometheus.GaugeOpts{
@@ -58,6 +74,7 @@ func main() {
                   []string{"id"},
                )
       prometheus.MustRegister(v.Value)
+
       for _, alias := range v.Alias {
          gauge.Tags[alias] = v
       }
