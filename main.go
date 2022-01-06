@@ -4,6 +4,7 @@ import (
    "os"
    "fmt"
    "log"
+   "io/ioutil"
    "net/http"
    "net/url"
    "github.com/prometheus/client_golang/prometheus"
@@ -32,25 +33,42 @@ func main() {
       config.Path = config.upURL.Path
    }
 
-   if config.ShowYAML {
-      fmt.Printf("%s\n", yamlDefault)
-      os.Exit(0)
+   yamlTags := yamlDefault
+   if config.Tags != "" {
+      yamlTags, err = ioutil.ReadFile(config.Tags)
+      if err != nil {
+         fmt.Printf("Error: %s\n", err)
+         os.Exit(1)
+      }
    }
 
-   if config.Version {
+   if config.Version || config.Verbose {
       fmt.Printf("%s - %s @%s\n", repoName, sha1ver, buildTime)
    }
 
-   fmt.Printf("Config-\n")
-   fmt.Printf("\tListen: %s\n", config.Listen)
-   fmt.Printf("\tPath: %s\n", config.Path)
-   fmt.Printf("\tMetrics: %s\n", config.Metrics)
-   fmt.Printf("\tUpload URL: %s\n", config.upURL.String())
+   if config.Verbose {
+      fmt.Printf("\nConfig-\n")
+      fmt.Printf("\tListen: %s\n", config.Listen)
+      fmt.Printf("\tPath: %s\n", config.Path)
+      fmt.Printf("\tMetrics: %s\n", config.Metrics)
+      fmt.Printf("\tUpload URL: %s\n", config.upURL.String())
+      tagType := "Built-in"
+      if config.Tags != "" {
+         tagType = config.Tags
+      }
+      fmt.Printf("\tTags: %s\n", tagType)
+   }
 
-   err = yaml.Unmarshal([]byte(yamlDefault), &gauge)
+   err = yaml.Unmarshal(yamlTags, &gauge)
    if err != nil {
       log.Fatalf("YAML Parse Error, %s", err)
    }
+   // see if we can ingest the yaml
+   if config.DumpYAML {
+      fmt.Printf("%s\n", string(yamlTags))
+      os.Exit(0)
+   }
+
 
    for key, v := range gauge.Tags {
       if v.Value != nil {

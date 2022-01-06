@@ -5,7 +5,7 @@ import (
    "github.com/prometheus/client_golang/prometheus"
 )
 
-const yamlDefault = `
+var yamlDefault = []byte (`
 #
 # Default YAML built in
 # 
@@ -29,7 +29,8 @@ tags:
     help: mph 2 minute average wind speed mph
     type: gauge
     # the Acurite 5-in-1 provides this option named differently
-    alias: [windspeedavgmph]
+    alias: 
+      - windspeedavgmph
   winddir_avg2m:
     help: 0-360 2 minute average wind direction
     type: gauge
@@ -81,7 +82,7 @@ tags:
   indoorhumidity:
     help: '% indoor humidity 0-100'
     type: gauge
-`
+`)
  
 type GaugeEntry struct {
    Name string `yaml:"name,omitempty"`
