@@ -1,0 +1,11 @@
+[Unit]
+Description=Weather Underground Proxy
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/tmp
+ExecStart=/usr/local/bin/pws-exporter
+
+[Install]
+WantedBy=multi-user.target
