@@ -15,6 +15,7 @@ https://support.weather.com/s/article/PWS-Upload-Protocol
 All the fields are defined on the Weather.com Website.
 */
 
+// turn a string into Float64
 func getFloat(s string) float64 {
    v, err := strconv.ParseFloat(s, 64)
    if err != nil {
@@ -24,18 +25,24 @@ func getFloat(s string) float64 {
    return v
 }
 
+// turn a timestamp into an int64
+// -- this function always returns a time
 func getTimestamp(ts string) int64 {
+   // the spec allows for the uploader to not provide a time
+   // if that is the case the the string "now" is used
    if ts == "now" {
       t := time.Now().Unix()
       return t
    } 
    t, err := time.Parse("2006-01-02 15:04:05", ts)
    if err != nil {
+      // did not parse, just return now
       t = time.Now()
    }
    return t.Unix()
 }
 
+// http handler function for posts of data
 func weather(w http.ResponseWriter, req *http.Request) {
    // get the Query options
    v := req.URL.Query()
@@ -43,24 +50,24 @@ func weather(w http.ResponseWriter, req *http.Request) {
    // check for the required tags
    // action=updateraw is required value
    if action, ok := v["action"]; !ok || action[0] != "updateraw" {
-      fmt.Printf("Action is not 'updateraw', Required\n")
+      fmt.Printf("Action is not 'updateraw' (REQUIRED)\n")
       return
    }
    // ID is requried
    if _, ok := v["ID"]; !ok {
-      fmt.Printf("No wunderground.com ID/Login (REQUIRED)")
+      fmt.Printf("No wunderground.com ID/Login (REQUIRED)\n")
       return
    }
    id := v["ID"][0]
    // PASSWORD
    if _, ok := v["PASSWORD"]; !ok {
-      fmt.Printf("No wunderground.com Password (REQUIRED)")
+      fmt.Printf("No wunderground.com Password (REQUIRED)\n")
       return
    }
    //passwd := v["PASSWORD"][0]
    // date time is requried
    if _, ok := v["dateutc"]; !ok {
-      fmt.Printf("No UTC Date (REQUIRED)")
+      fmt.Printf("No UTC Date (REQUIRED)\n")
       return
    }
    dateutc := v["dateutc"][0]
