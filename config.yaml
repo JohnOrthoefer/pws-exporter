@@ -1,0 +1,4 @@
+upload: https://weatherstation.wunderground.com/weatherstation/updateweatherstation.php
+metrics: /metrics
+listen: localhost:8443
+
