@@ -3,12 +3,21 @@ GOLANG=/usr/bin/go
 CURL=/usr/bin/curl
 GIT=/usr/bin/git
 REPONAME=$(shell basename `git rev-parse --show-toplevel`)
+DOCKERREPO=${REPONAME}
+VERSION=v1.0-beta
 SHA1=$(shell git rev-parse --short HEAD)
 NOW=$(shell date +%Y-%m-%d_%T)
 
-pws-exporter: ${SRC}
+pws_exporter: ${SRC}
 	echo ${REPONAME}
-	${GOLANG} build -ldflags "-X main.sha1ver=${SHA1} -X main.buildTime=${NOW} -X main.repoName=${REPONAME}"
+	${GOLANG} build \
+		-o pws_exporter \
+		-ldflags "-X main.sha1ver=${SHA1} \
+		-X main.buildTime=${NOW} \
+		-X main.repoName=${REPONAME}"
+
+Docker: pws_exporter
+	docker build -t ${DOCKERREPO}:${VERSION} .
 
 update-go:
 	${GOLANG} get github.com/prometheus/client_golang/prometheus
@@ -17,5 +26,5 @@ update-go:
 	${GOLANG} get gopkg.in/yaml.v2
 
 clean:
-	rm -f pws-exporter
+	rm -f pws-exporter pws_exporter
 
