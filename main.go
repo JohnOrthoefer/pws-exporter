@@ -70,6 +70,35 @@ func getTimestamp(ts string) int64 {
 }
 
 func weather(w http.ResponseWriter, req *http.Request) {
+   // get the Query options
+   v := req.URL.Query()
+
+   // check for the required tags
+   // action=updateraw is required value
+   if action, ok := v["action"]; !ok || action[0] != "updateraw" {
+      fmt.Printf("Action is not 'updateraw', Required\n")
+      return
+   }
+   // ID is requried
+   if _, ok := v["ID"]; !ok {
+      fmt.Printf("No wunderground.com ID/Login (REQUIRED)")
+      return
+   }
+   id := v["ID"][0]
+   // PASSWORD
+   if _, ok := v["PASSWORD"]; !ok {
+      fmt.Printf("No wunderground.com Password (REQUIRED)")
+      return
+   }
+   //passwd := v["PASSWORD"][0]
+   // date time is requried
+   if _, ok := v["dateutc"]; !ok {
+      fmt.Printf("No UTC Date (REQUIRED)")
+      return
+   }
+   dateutc := v["dateutc"][0]
+
+   // do you want to forward upstream
    if config.Forward {
       // forward up stream
 
@@ -93,28 +122,6 @@ func weather(w http.ResponseWriter, req *http.Request) {
       fmt.Printf("Skipping forwarding.  Success!\n")
       fmt.Fprintf(w, "success\n")
    }
-
-   // get the Query options
-   v := req.URL.Query()
-
-   // ID, PASSWORD and dateutc are required
-   if _, ok := v["ID"]; !ok {
-      fmt.Printf("No wunderground.com ID/Login (REQUIRED)")
-      return
-   }
-   id := v["ID"][0]
-
-   if _, ok := v["PASSWORD"]; !ok {
-      fmt.Printf("No wunderground.com Password (REQUIRED)")
-      return
-   }
-   //passwd := v["PASSWORD"][0]
-
-   if _, ok := v["dateutc"]; !ok {
-      fmt.Printf("No UTC Date (REQUIRED)")
-      return
-   }
-   dateutc := v["dateutc"][0]
 
    // Label the data with the station login/name
    label := prometheus.Labels{"id":id}

@@ -1,4 +1,5 @@
 package main 
+// embedded yaml for the default wu rules
 
 import (
    "github.com/prometheus/client_golang/prometheus"
