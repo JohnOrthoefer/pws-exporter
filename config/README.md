@@ -2,19 +2,19 @@
 
 This are not the configuation for the software but the configurations for various bit that support the build.
 
-# Unbound 
+* Unbound 
 How to redirect the DNS
 
-# Nginx
+* Nginx
 Webserver to handle the https connection from the weather station
 
-# Prometheus 
+* Prometheus 
 Configure the Scraping
 
-# Grafana 
+* Grafana 
 Dashboard model
 
-# Systemd
+* Systemd
 Start the software up
 
 
