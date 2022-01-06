@@ -150,7 +150,6 @@ func main() {
    fmt.Printf("Path: %s\n", config.Path)
    fmt.Printf("Metrics: %s\n", config.Metrics)
    fmt.Printf("Upload URL: %s\n", config.upURL.String())
-   fmt.Printf("Forward URL: %q\n", config.Forward)
 
    err = yaml.Unmarshal([]byte(yamlDefault), &gauge)
    if err != nil {
