@@ -70,22 +70,34 @@ func getTimestamp(ts string) int64 {
 }
 
 func weather(w http.ResponseWriter, req *http.Request) {
-   req.URL.Scheme = config.upURL.Scheme
-   req.URL.Host = config.upURL.Host
-   fmt.Printf("Source:%s, Recieved:%s\n", req.RemoteAddr, req.URL.String())
-   resp, err := http.Get(req.URL.String())
-   if err != nil {
-      fmt.Printf("Upload Error code, %s\n", resp.Status)
-      return
+   if config.Forward {
+      // forward up stream
+
+      // update the target of the URL and send it
+      req.URL.Scheme = config.upURL.Scheme
+      req.URL.Host = config.upURL.Host
+      fmt.Printf("Source:%s, Recieved:%s\n", req.RemoteAddr, req.URL.String())
+      resp, err := http.Get(req.URL.String())
+      if err != nil {
+         // Toss the read
+         fmt.Printf("Upload Error code, %s\n", resp.Status)
+         return
+      }
+      defer resp.Body.Close()
+      body, err := io.ReadAll(resp.Body)
+
+      fmt.Printf("Upload Return:%s Body:%s\n", resp.Status, 
+         strconv.Quote(string(body)))
+      fmt.Fprintf(w, string(body))
+   } else {
+      fmt.Printf("Skipping forwarding.  Success!\n")
+      fmt.Fprintf(w, "success\n")
    }
-   defer resp.Body.Close()
-   body, err := io.ReadAll(resp.Body)
 
-   fmt.Printf("Upload Return:%s Body:%s\n", resp.Status, strconv.Quote(string(body)))
-   fmt.Fprintf(w, string(body))
+   // get the Query options
    v := req.URL.Query()
-   //fmt.Printf("%q\n", v)
 
+   // ID, PASSWORD and dateutc are required
    if _, ok := v["ID"]; !ok {
       fmt.Printf("No wunderground.com ID/Login (REQUIRED)")
       return
@@ -104,9 +116,14 @@ func weather(w http.ResponseWriter, req *http.Request) {
    }
    dateutc := v["dateutc"][0]
 
+   // Label the data with the station login/name
    label := prometheus.Labels{"id":id}
+
+   // time is a gauge and handled outside the loop
    gauge.Tags["dateutc"].Value.With(label).Set(float64(getTimestamp(dateutc)))
    delete(v, "dateutc")
+
+   // loop though what has been provided and get them ready to be scraped
    for k, val := range v {
       if _, ok := gauge.Tags[k]; !ok {
          continue
@@ -115,6 +132,7 @@ func weather(w http.ResponseWriter, req *http.Request) {
    }
 }
 
+// main
 func main() {
    var err error
    ctx := kong.Parse(&config,
@@ -132,6 +150,7 @@ func main() {
    fmt.Printf("Path: %s\n", config.Path)
    fmt.Printf("Metrics: %s\n", config.Metrics)
    fmt.Printf("Upload URL: %s\n", config.upURL.String())
+   fmt.Printf("Forward URL: %q\n", config.Forward)
 
    err = yaml.Unmarshal([]byte(yamlDefault), &gauge)
    if err != nil {
