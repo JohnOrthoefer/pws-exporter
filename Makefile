@@ -1,4 +1,4 @@
-SRC= main.go build.go options.go tags.go
+SRC= main.go build.go options.go tags.go weather.go
 GOLANG=/usr/bin/go
 CURL=/usr/bin/curl
 GIT=/usr/bin/git
