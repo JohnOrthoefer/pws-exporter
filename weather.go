@@ -4,6 +4,7 @@ import (
    "io"
    "fmt"
    "net/http"
+   "net/url"
    "strconv"
    "time"
    "github.com/prometheus/client_golang/prometheus"
@@ -44,6 +45,7 @@ func getTimestamp(ts string) int64 {
 
 // http handler function for posts of data
 func weather(w http.ResponseWriter, req *http.Request) {
+   fmt.Printf("Source:%s, Recieved:%s\n", req.RemoteAddr, req.URL.Redacted())
    // get the Query options
    v := req.URL.Query()
 
@@ -76,22 +78,38 @@ func weather(w http.ResponseWriter, req *http.Request) {
    if config.Forward {
       // forward up stream
 
+      // Delete unforwarded 
+      for _, val := range config.Filter {
+         if v.Has(val) {
+            if config.Verbose {
+               fmt.Printf("Removing %s=\"%s\"\n", val, v.Get(val))
+            }
+            v.Del(val) 
+         }
+      }
+
       // update the target of the URL and send it
       req.URL.Scheme = config.upURL.Scheme
       req.URL.Host = config.upURL.Host
-      fmt.Printf("Source:%s, Recieved:%s\n", req.RemoteAddr, req.URL.String())
+      req.URL.RawQuery = v.Encode()
+      if config.Verbose {
+         fmt.Printf("Uploading: %s\n", req.URL.Redacted())
+      }
       resp, err := http.Get(req.URL.String())
       if err != nil {
-         // Toss the read
-         fmt.Printf("Upload Error code, %s\n", resp.Status)
-         return
-      }
-      defer resp.Body.Close()
-      body, err := io.ReadAll(resp.Body)
+         fmt.Printf("Upload- %s\n", err.(*url.Error).Unwrap())
+         // tell the device things where successful 
+         fmt.Fprintf(w, "success\n")
+      } else {
+         // finish up no error
+         defer resp.Body.Close()
+         body, _ := io.ReadAll(resp.Body)
 
-      fmt.Printf("Upload Return:%s Body:%s\n", resp.Status, 
-         strconv.Quote(string(body)))
-      fmt.Fprintf(w, string(body))
+         fmt.Printf("Upload Return:%s Body:%s\n", resp.Status, 
+            strconv.Quote(string(body)))
+         // return what ever upstream told us
+         fmt.Fprintf(w, string(body))
+      }
    } else {
       fmt.Printf("Skipping forwarding.  Success!\n")
       fmt.Fprintf(w, "success\n")
