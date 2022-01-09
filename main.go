@@ -17,6 +17,13 @@ var (
    gauge GaugeMap
 )
 
+func builtIn(v string, t string) string {
+   if v == "" {
+      return t
+   }
+   return v
+}
+
 // main
 func main() {
    var err error
@@ -43,20 +50,21 @@ func main() {
    }
 
    if config.Version || config.Verbose {
-      fmt.Printf("%s - %s @%s\n", repoName, sha1ver, buildTime)
+      fmt.Printf("# %s - %s @%s\n", repoName, sha1ver, buildTime)
    }
 
    if config.Verbose {
-      fmt.Printf("\nConfig-\n")
-      fmt.Printf("\tListen: %s\n", config.Listen)
-      fmt.Printf("\tPath: %s\n", config.Path)
-      fmt.Printf("\tMetrics: %s\n", config.Metrics)
-      fmt.Printf("\tUpload URL: %s\n", config.upURL.String())
-      tagType := "Built-in"
-      if config.Tags != "" {
-         tagType = config.Tags
+      fmt.Printf("## Config-\n")
+      fmt.Printf("  * Listen: %s\n", config.Listen)
+      fmt.Printf("  * Path: %s\n", config.Path)
+      fmt.Printf("  * Metrics: %s\n", config.Metrics)
+      fmt.Printf("  * Forward: %t\n", config.Forward)
+      if config.Forward {
+         fmt.Printf("    * ID: %s\n", builtIn(config.ID, "*From Device*"))
+         fmt.Printf("    * Key: %s\n", builtIn(config.KEY, "*From Device*"))
+         fmt.Printf("    * Upload URL: %s\n", config.upURL.String())
       }
-      fmt.Printf("\tTags: %s\n", tagType)
+      fmt.Printf("  * Tags (Prefix=\"%s\"): %s\n", config.Prefix, builtIn(config.Tags, "*Built-in*"))
    }
 
    err = yaml.Unmarshal(yamlTags, &gauge)
@@ -68,7 +76,6 @@ func main() {
       fmt.Printf("%s\n", string(yamlTags))
       os.Exit(0)
    }
-
 
    for key, v := range gauge.Tags {
       if v.Value != nil {

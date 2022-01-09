@@ -6,7 +6,7 @@ import (
 var config struct {
    Upstream string  `help:"URL to Receive" default:"https://weatherstation.wunderground.com/weatherstation/updateweatherstation.php"`
    upURL    *url.URL 
-   Forward  bool     `negatable:"" help:"Forward data to Upstream" default:"false"`
+   Forward  bool     `help:"Forward data to Upstream" default:"false"`
    DumpYAML bool     `help:"Dump out the parsed YAML" default:"false"`
    Version  bool     `help:"Show version and exit" default:"false"`
    Verbose  bool     `help:"Print extra start infomation" default:"false"`

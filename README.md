@@ -1,4 +1,6 @@
 # pws-exporter
+
+## Overview
 Prometheus exporter for wunderground Personal Weather Stations (PWS) protocol.
 
 This works as a proxy for the PWS Gateway, man-in-the-middling the transaction before forwarding it up to the wunderground servers.  
@@ -7,7 +9,7 @@ Lots to add to this document about how to set it up.   That is coming soon.  I j
 
 Right now some of the options are  just stubs and it only works as far as I know with the AcuRite 5-in-1 weather station.  
 
-Todo
+## Todo
 - [ ] Add in the filter and log options
 - [X] Add in an option for your own config.yaml file
 - [ ] Make the station id and password options do what they should
