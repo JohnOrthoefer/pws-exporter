@@ -77,7 +77,6 @@ func weather(w http.ResponseWriter, req *http.Request) {
    // do you want to forward upstream
    if config.Forward {
       // forward up stream
-
       // Delete unforwarded 
       for _, val := range config.Filter {
          if v.Has(val) {
@@ -86,6 +85,15 @@ func weather(w http.ResponseWriter, req *http.Request) {
             }
             v.Del(val) 
          }
+      }
+
+      if config.ID != "" {
+         v.Del("ID")
+         v.Add("ID", config.ID)
+      }
+      if config.KEY != "" {
+         v.Del("PASSWORD")
+         v.Add("PASSWORD", config.KEY)
       }
 
       // update the target of the URL and send it

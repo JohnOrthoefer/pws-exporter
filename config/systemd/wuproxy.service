@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/tmp
-ExecStart=/usr/local/bin/pws-exporter
+ExecStart=/usr/local/bin/pws_exporter
 
 [Install]
 WantedBy=multi-user.target
