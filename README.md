@@ -37,6 +37,20 @@ Right now some of the options are  just stubs and it only works as far as I know
    rtupdate.wunderground.com.  A  ${RPi_StaticIP}
 ```
 
+## Run-time Options
+* `--upstream=` Sets the address will accept the pass though post.  It also sets the path that is intercepted. Default https://weatherstation.wunderground.com/weatherstation/updateweatherstation.php
+* `--forward` Flag allows the software to forward to the upstream address.  Default is do not forward.
+* `--path=` the scrape path for Promethus.  Default is /metrics
+* `--listen=` what port to listen in.  Default is all inteface on port 9874.
+* `--id=` Station ID, Default is what is passed by the device.
+* `--key=` Station Key, Default is what is passed by the device.
+* `--prefix=` prefix that is prepended to the prometheus keys.  Default is "weather_".
+* `--tags=` provide a file for external tags.yaml. Default is use the built-in.
+* `--filter=` list of options that will be filtered out.  Default is to not filter anything.
+* `--version` print the build information.
+* `--verbose` print extra logging.
+* `--dump-yaml` print the built-in Yaml.
+
 ## Todo
 - [X] Add in the filter option
 - [ ] Add in the log option
