@@ -51,6 +51,9 @@ Right now some of the options are  just stubs and it only works as far as I know
 * `--verbose` print extra logging.
 * `--dump-yaml` print the built-in Yaml.
 
+## Notes
+* Self-signed cert.   The system uses a self-signed cert because the devices just want to speak `https`.  The IoT gateway does not check the cert.  You could you [Let's Encrypt](https://letsencrypt.org/)
+
 ## Todo
 - [X] Add in the filter option
 - [ ] Add in the log option
