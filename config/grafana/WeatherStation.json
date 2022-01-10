@@ -22,6 +22,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 16,
+  "iteration": 1641780154018,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -74,7 +75,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "timestamp(weather_tempf{id=\"KMAFRAMI83\"})*1000",
+          "expr": "timestamp(weather_tempf{id=\"$station_id\"})*1000",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -149,7 +150,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "min_over_time(sum(weather_tempf{})[24h:1h])",
+          "expr": "min_over_time(sum(weather_tempf{id=\"$station_id\"})[24h:1h])",
           "interval": "",
           "legendFormat": "Low",
           "refId": "A"
@@ -160,7 +161,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "max_over_time(sum(weather_tempf{})[24h:1h])",
+          "expr": "max_over_time(sum(weather_tempf{id=\"$station_id\"})[24h:1h])",
           "hide": false,
           "interval": "",
           "legendFormat": "High",
@@ -172,7 +173,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_dailyrainin",
+          "expr": "weather_dailyrainin{id=\"$station_id\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Precipitation",
@@ -286,7 +287,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_tempf",
+          "expr": "weather_tempf{id=\"$station_id\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Temperature",
@@ -298,7 +299,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_dewptf",
+          "expr": "weather_dewptf{id=\"$station_id\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Dew Point",
@@ -357,9 +358,9 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_baromin",
+          "expr": "weather_baromin{id=\"$station_id\"}",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "Pressure",
           "refId": "A"
         }
       ],
@@ -469,7 +470,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_humidity",
+          "expr": "weather_humidity{id=\"$station_id\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Humidity",
@@ -582,7 +583,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_windspeedmph",
+          "expr": "weather_windspeedmph{id=\"$station_id\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Wind ",
@@ -594,7 +595,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_windgustmph",
+          "expr": "weather_windgustmph{id=\"$station_id\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Wind Gust",
@@ -606,7 +607,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_tempf",
+          "expr": "weather_tempf{id=\"$station_id\"}",
           "hide": true,
           "interval": "",
           "legendFormat": "T",
@@ -711,7 +712,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_tempf",
+          "expr": "weather_tempf{id=\"$station_id\"}",
           "interval": "",
           "legendFormat": "Temp",
           "refId": "A"
@@ -722,7 +723,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_dewptf",
+          "expr": "weather_dewptf{id=\"$station_id\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Dew Point",
@@ -734,7 +735,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_humidity",
+          "expr": "weather_humidity{id=\"$station_id\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Humidity",
@@ -821,7 +822,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_rainin",
+          "expr": "weather_rainin{id=\"$station_id\"}",
           "interval": "",
           "legendFormat": "Inches/hr",
           "refId": "A"
@@ -832,7 +833,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_dailyrainin",
+          "expr": "weather_dailyrainin{id=\"$station_id\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "inches/day",
@@ -918,7 +919,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_windspeedmph{}",
+          "expr": "weather_windspeedmph{id=\"$station_id\"}",
           "interval": "",
           "legendFormat": "Speed",
           "refId": "A"
@@ -929,7 +930,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_windgustmph",
+          "expr": "weather_windgustmph{id=\"$station_id\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Gusts",
@@ -1013,7 +1014,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_winddir",
+          "expr": "weather_winddir{id=\"$station_id\"}",
           "interval": "",
           "legendFormat": "Direction",
           "refId": "A"
@@ -1098,7 +1099,7 @@
             "uid": "gm8giT27z"
           },
           "exemplar": true,
-          "expr": "weather_baromin",
+          "expr": "weather_baromin{id=\"$station_id\"}",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -1110,21 +1111,44 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "10s",
+  "refresh": "5s",
   "schemaVersion": 33,
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "KMAFRAMI83",
+          "value": "KMAFRAMI83"
+        },
+        "definition": "label_values(weather_dateutc,id)",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "station_id",
+        "options": [],
+        "query": {
+          "query": "label_values(weather_dateutc,id)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Weather Station",
   "uid": "XIJ-kW0nz",
-  "version": 31,
+  "version": 37,
   "weekStart": ""
 }
