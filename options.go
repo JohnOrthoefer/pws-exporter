@@ -20,5 +20,5 @@ var config struct {
    Log      []string `help:"Tags that will be provided to Prometheus"`
    Filter   []string `help:"Filter tags, do not log or forward, superceeds --Log"`
    Publish  string   `help:"MQTT URL"`
-   Topic    string   `help:"MQTT Topic" default:"weather/SENSOR"`
+   Topic    string   `help:"MQTT Topic" default:"tele/%mt%_%id%/SENSOR"`
 }

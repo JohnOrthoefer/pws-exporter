@@ -1,0 +1,37 @@
+{
+   "type": "weatherStation",
+   "name": "AccuWeather 5-in-1",
+   "url": "mqtt://localhost:1883",
+   "caption": "Location",
+   "accessory": "mqttthing",
+   "topics": {
+       "getCurrentTemperature": {
+           "topic": "tele/5N1/SENSOR",
+           "apply": "return JSON.parse(message).temperature;"
+       },
+       "getCurrentRelativeHumidity": {
+           "topic": "tele/5N1/SENSOR",
+           "apply": "return JSON.parse(message).humidity;"
+       },
+       "getRain1h": {
+           "topic": "tele/5N1/SENSOR",
+           "apply": "return JSON.parse(message).rain1h;"
+       },
+       "getRain24h": {
+           "topic": "tele/5N1/SENSOR",
+           "apply": "return JSON.parse(message).rain24h;"
+       },
+       "getWindDirection": {
+           "topic": "tele/5N1/SENSOR",
+           "apply": "return JSON.parse(message).winddir;"
+       },
+       "getWindSpeed": {
+           "topic": "tele/5N1/SENSOR",
+           "apply": "return JSON.parse(message).windspeed;"
+       },
+       "getAirPressure": {
+           "topic": "tele/5N1/SENSOR",
+           "apply": "return JSON.parse(message).airPressure;"
+       }
+   }
+}   
