@@ -9,6 +9,7 @@ Lots to add to this document about how to set it up.   That is coming soon.  I j
 
 Right now some of the options are  just stubs and it only works as far as I know with the AcuRite 5-in-1 weather station.  
 
+
 ## Setup
 * Make and Install  pws_exportor
 ```
@@ -50,6 +51,8 @@ Right now some of the options are  just stubs and it only works as far as I know
 * `--version` print the build information.
 * `--verbose` print extra logging.
 * `--dump-yaml` print the built-in Yaml.
+* `--publish` *MQTT* sends a copy of the data to an MQTT broker.
+* `--topic` *MQTT* specifies the topic to publish to.
 
 ## Notes
 * Self-signed cert.   The system uses a self-signed cert because the devices just want to speak `https`.  The IoT gateway does not check the cert.  You could you [Let's Encrypt](https://letsencrypt.org/)

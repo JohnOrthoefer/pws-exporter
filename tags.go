@@ -85,13 +85,14 @@ tags:
 `)
  
 type GaugeEntry struct {
-   Name string `yaml:"name,omitempty"`
-   Help string `yaml:"help,omitempty"`
-   Type string `yaml:"type,omitempty"`
-   Alias []string `yaml:"alias,omitempty"`
-   Value *prometheus.GaugeVec
+   Name string `yaml:"name,omitempty" json:"-"`
+   Help string `yaml:"help,omitempty" json:"-"`
+   Type string `yaml:"type,omitempty" json:"-"`
+   Alias []string `yaml:"alias,omitempty" json:"-"`
+   FVal  float64 `json:"value"`
+   Value *prometheus.GaugeVec `json:"-"`
 }
 
 type GaugeMap struct {
-  Tags map[string]*GaugeEntry `yaml:"tags,omitempty"`
+  Tags map[string]*GaugeEntry `yaml:"tags,omitempty" json:"tags"`
 }

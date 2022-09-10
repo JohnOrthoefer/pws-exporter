@@ -1,4 +1,4 @@
-SRC= main.go build.go options.go tags.go weather.go
+SRC= main.go build.go options.go tags.go weather.go mqtt.go
 GOLANG=/usr/bin/go
 CURL=/usr/bin/curl
 GIT=/usr/bin/git
@@ -22,7 +22,8 @@ Docker: pws_exporter
 update-go:
 	${GOLANG} get github.com/prometheus/client_golang/prometheus
 	${GOLANG} get github.com/prometheus/client_golang/prometheus/promhttp
-	${GOLANG} get"github.com/alecthomas/kong
+	${GOLANG} get github.com/alecthomas/kong
+	${GOLANG} get github.com/eclipse/paho.mqtt.golang
 	${GOLANG} get gopkg.in/yaml.v2
 
 clean:

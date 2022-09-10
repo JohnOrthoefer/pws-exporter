@@ -77,6 +77,10 @@ func main() {
       os.Exit(0)
    }
 
+   if config.Publish != "" {
+      mqttSetup(config.Publish, config.Topic)
+   }
+
    for key, v := range gauge.Tags {
       if v.Value != nil {
          continue

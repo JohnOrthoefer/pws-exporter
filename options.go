@@ -19,4 +19,6 @@ var config struct {
    Tags     string   `help:"YAML file with the tags defined."`
    Log      []string `help:"Tags that will be provided to Prometheus"`
    Filter   []string `help:"Filter tags, do not log or forward, superceeds --Log"`
+   Publish  string   `help:"MQTT URL"`
+   Topic    string   `help:"MQTT Topic" default:"weather/SENSOR"`
 }

@@ -5,7 +5,9 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/tmp
-ExecStart=/usr/local/bin/pws_exporter
+EnvironmentFile=-/etc/sysconfig/wuproxy
+EnvironmentFile=-/etc/default/wuproxy
+ExecStart=/usr/local/bin/pws_exporter $OPTIONS
 
 [Install]
 WantedBy=multi-user.target

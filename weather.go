@@ -126,6 +126,8 @@ func weather(w http.ResponseWriter, req *http.Request) {
    // Label the data with the station login/name
    label := prometheus.Labels{"id":id}
 
+   publish(v)
+
    // time is a gauge and handled outside the loop
    gauge.Tags["dateutc"].Value.With(label).Set(float64(getTimestamp(dateutc)))
    delete(v, "dateutc")
@@ -135,6 +137,7 @@ func weather(w http.ResponseWriter, req *http.Request) {
       if _, ok := gauge.Tags[k]; !ok {
          continue
       }
+      gauge.Tags[k].FVal = float64(getFloat(val[0]))
       gauge.Tags[k].Value.With(label).Set(float64(getFloat(val[0])))
    }
 }
