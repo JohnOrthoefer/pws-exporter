@@ -25,6 +25,7 @@ update-go:
 	${GOLANG} get github.com/alecthomas/kong
 	${GOLANG} get github.com/eclipse/paho.mqtt.golang
 	${GOLANG} get gopkg.in/yaml.v2
+	${GOLANG} mod tidy
 
 clean:
 	rm -f pws-exporter pws_exporter
